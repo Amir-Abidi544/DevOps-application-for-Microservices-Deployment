@@ -5,3 +5,4 @@ docker.txt
 gitlab/
 jenkins_home/
 target/
+jenkins.crt
