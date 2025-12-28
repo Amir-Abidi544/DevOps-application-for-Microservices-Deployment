@@ -1,0 +1,161 @@
+/* Conteneur général de la page Légumes */
+body {
+    font-family: Arial, sans-serif;
+    background: linear-gradient(120deg, #d4edda, #a8e063);
+    text-align: center;
+    padding: 20px;
+}
+
+/* Conteneur pour l'ajout de légume */
+.add-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    max-width: 500px;
+    margin: 0 auto 20px auto;
+    padding: 12px;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.15);
+}
+
+/* Champ et bouton Ajouter */
+.add-container input {
+    flex: 1;
+    padding: 8px;
+    border: 2px solid #4caf50;
+    border-radius: 6px;
+    font-size: 14px;
+}
+
+.add-container button {
+    background: linear-gradient(45deg, #4caf50, #388e3c);
+    color: white;
+    border: none;
+    padding: 8px 12px;
+    font-size: 14px;
+    font-weight: bold;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.add-container button:hover {
+    background: linear-gradient(45deg, #3d8b40, #2e7d32);
+}
+
+/* Liste des légumes */
+ul {
+    list-style-type: none;
+    padding: 0;
+    max-width: 500px;
+    margin: 20px auto;
+}
+
+/* Liste des éléments */
+li {
+    background: linear-gradient(135deg, #4caf50, #c8e6c9);
+    padding: 12px;
+    margin: 8px 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border-radius: 10px;
+    box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.15);
+    transition: transform 0.2s;
+}
+
+li:hover {
+    transform: scale(1.05);
+}
+
+/* Texte du légume */
+li span {
+    font-size: 16px;
+    font-weight: bold;
+    color: #2e7d32;
+}
+
+/* Conteneur des boutons Modifier et Supprimer */
+li div {
+    display: flex;
+    gap: 12px;
+    margin-top: 5px;
+}
+
+/* Boutons Modifier et Supprimer */
+li div button {
+    padding: 6px 10px;
+    font-size: 14px;
+    font-weight: bold;
+    border-radius: 5px;
+    border: none;
+    cursor: pointer;
+    transition: 0.3s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Effet hover des boutons */
+li div button:hover {
+    opacity: 0.8;
+}
+
+/* Bouton Modifier */
+li div button:first-child {
+    background-color: #388e3c;
+    color: white;
+}
+
+li div button:first-child:hover {
+    background-color: #2e7d32;
+}
+
+/* Bouton Supprimer */
+li div button:last-child {
+    background-color: #e74c3c;
+    color: white;
+}
+
+li div button:last-child:hover {
+    background-color: #c0392b;
+}
+
+/* Formulaire de mise à jour sous le légume sélectionné */
+.edit-container {
+    margin-top: 10px;
+    padding: 8px;
+    background: #dcedc8;
+    border-radius: 8px;
+    max-width: 300px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+/* Champ de saisie et bouton Enregistrer */
+.edit-container input {
+    padding: 6px;
+    border: 2px solid #28a745;
+    border-radius: 5px;
+    font-size: 12px;
+}
+
+/* Bouton Enregistrer */
+.edit-container button {
+    background-color: #28a745;
+    color: white;
+    border: none;
+    padding: 6px;
+    font-size: 12px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+/* Effet hover pour le bouton Enregistrer */
+.edit-container button:hover {
+    background-color: #218838;
+}

@@ -1,0 +1,22 @@
+<!-- Conteneur pour ajouter un légume, centré en haut -->
+<div class="add-container">
+  <input [(ngModel)]="newLegume" placeholder="Add Legume">
+  <button (click)="addLegume()">➕ Add</button>
+</div>
+
+<!-- Liste des légumes avec boutons Modifier/Supprimer -->
+<ul>
+  <li *ngFor="let legume of legumes">
+    <span>{{ legume.name }}</span>
+    <div>
+      <button (click)="editLegume(legume)">✏ Modify</button>
+      <button (click)="deleteLegume(legume.id!)">🗑 Delete</button>
+    </div>
+
+    <!-- Formulaire de modification s'affiche sous le légume sélectionné -->
+    <div *ngIf="editingLegume && editingLegume.id === legume.id" class="edit-container">
+      <input [(ngModel)]="editingLegume.name" placeholder="Modify The Legume">
+      <button (click)="updateLegume()">✔ Save</button>
+    </div>
+  </li>
+</ul>

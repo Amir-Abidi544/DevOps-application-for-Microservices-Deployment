@@ -1,0 +1,62 @@
+services:
+  postgres:
+    container_name: global-postgres
+    image: postgres:17.4
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: amir
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+      - ./init-db:/docker-entrypoint-initdb.d
+    networks:
+      - newnew 
+
+  fruit-service-back:
+    container_name: fruit-service-back
+    image: amirabidii/fruit_back_amir:v2.0.206
+    ports:
+      - "8081:8081"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://global-postgres:5432/fruitdb
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: amir
+    depends_on:
+      - postgres
+    networks:
+      - newnew 
+
+  legume-service-back:
+    container_name: legume-service-back
+    image: amirabidii/legume_back_amir:v2.0.56
+    ports:
+      - "8082:8080"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://global-postgres:5432/legumedb
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: amir
+    depends_on:
+      - postgres
+    networks:
+      - newnew 
+
+  frontend:
+    container_name: newfrontend
+    image: amirabidii/myfront_service:1.0.24
+    ports:
+      - "4200:4200"
+    depends_on:
+      - fruit-service-back
+      - legume-service-back
+    networks:
+      - newnew 
+
+
+networks:
+  newnew:
+    external: true
+    driver: bridge
+
+
+volumes:
+  postgres-data:
+    driver: local

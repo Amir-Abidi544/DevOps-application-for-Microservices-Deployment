@@ -1,0 +1,61 @@
+pipeline {
+  agent any
+
+  environment {
+    PROJECT_NAME = 'fruit-service-backend'
+    IMAGE_TAG = "amirabidii/fruit_back_amir:v2.0.${env.BUILD_NUMBER}"
+  }
+
+  stages {
+    stage('Checkout') {
+      steps {
+        checkout scm
+      }
+    }
+
+    stage('Build & Test') {
+      agent {
+        docker {
+          image 'maven:3.8.5-openjdk-17'
+          args '-v $HOME/.m2:/root/.m2 --network=propro_mynetwork'
+        }
+      }
+      steps {
+        sh 'mvn clean install'
+      }
+    }
+
+    stage('Docker Build & Push') {
+      steps {
+        script {
+          sh "docker build -t ${IMAGE_TAG} ."
+
+          withCredentials([
+            usernamePassword(
+              credentialsId: 'docker-hub-cred',
+              usernameVariable: 'DOCKER_USER',
+              passwordVariable: 'DOCKER_PASS'
+            )
+          ]) {
+            sh '''
+              echo $DOCKER_PASS | docker login -u $DOCKER_USER --password-stdin
+              docker push ${IMAGE_TAG}
+            '''
+          }
+        }
+      }
+    }
+  }
+
+  post {
+    success {
+      echo "✅ Build & Push terminés : ${IMAGE_TAG}"
+    }
+    failure {
+      echo "❌ Échec du pipeline."
+    }
+    always {
+      cleanWs()
+    }
+  }
+}

@@ -1,0 +1,26 @@
+services:
+  jenkins:
+    image: jenkins/jenkins:lts
+    container_name: jenkins
+    user: root
+    restart: always
+    ports:
+      - "9090:8080"
+      - "50000:50000"
+    volumes:
+      - /d/PFE-ASRI-DevOps/propro/jenkins_home:/var/jenkins_home
+      - /var/run/docker.sock:/var/run/docker.sock
+    networks:
+      - propro_mynetwork
+    deploy:
+      resources:
+        limits:
+          memory: 2.5g
+          cpus: '2.5'
+
+volumes:
+  jenkins_home:
+
+networks:
+  propro_mynetwork:
+    external: true

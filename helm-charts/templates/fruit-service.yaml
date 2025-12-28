@@ -1,0 +1,24 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: fruit-service-back
+spec:
+  selector:
+    app: fruit-service-back
+  ports:
+    - port: {{ .Values.fruitService.port }}
+      targetPort: {{ .Values.fruitService.port }}
+  type: ClusterIP
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: fruit-service-external
+spec:
+  selector:
+    app: fruit-service-back
+  ports:
+    - port: {{ .Values.fruitService.port }}
+      targetPort: {{ .Values.fruitService.port }}
+      nodePort: {{ .Values.fruitService.nodePort }}
+  type: NodePort

@@ -1,0 +1,65 @@
+pipeline {
+  agent any
+
+  environment {
+    PROJECT_NAME = 'frontend-service'
+    IMAGE_TAG = "amirabidii/myfront_service:1.0.${BUILD_NUMBER}"
+  }
+
+  stages {
+    stage('Checkout') {
+      steps {
+        checkout scm
+      }
+    }
+
+    stage('Install & Build Angular') {
+      agent {
+        docker {
+          image 'node:20'
+          args '--network=propro_mynetwork'
+        }
+      }
+      steps {
+        sh '''
+          npm install -g @angular/cli
+          npm install
+          ng build --configuration production
+        '''
+      }
+    }
+
+    stage('Docker Build & Push') {
+      steps {
+        script {
+          sh "docker build -t ${IMAGE_TAG} ."
+
+          withCredentials([
+            usernamePassword(
+              credentialsId: 'docker-hub-cred',
+              usernameVariable: 'DOCKER_USER',
+              passwordVariable: 'DOCKER_PASS'
+            )
+          ]) {
+            sh '''
+              echo $DOCKER_PASS | docker login -u $DOCKER_USER --password-stdin
+              docker push ${IMAGE_TAG}
+            '''
+          }
+        }
+      }
+    }
+  }
+
+  post {
+    success {
+      echo "✅ Frontend build & push terminés : ${IMAGE_TAG}"
+    }
+    failure {
+      echo "❌ Échec du pipeline frontend."
+    }
+    always {
+      cleanWs()
+    }
+  }
+}

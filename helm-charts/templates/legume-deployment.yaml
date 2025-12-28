@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: legume-service-back
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: legume-service-back
+  template:
+    metadata:
+      labels:
+        app: legume-service-back
+    spec:
+      containers:
+        - name: legume-service-back
+          image: {{ .Values.legumeService.image }}
+          ports:
+            - containerPort: 8080
+          env:
+            - name: SPRING_DATASOURCE_URL
+              value: "jdbc:postgresql://postgres:5432/legumedb"
+            - name: SPRING_DATASOURCE_USERNAME
+              value: {{ .Values.postgres.username | quote }}
+            - name: SPRING_DATASOURCE_PASSWORD
+              value: {{ .Values.postgres.password | quote }}

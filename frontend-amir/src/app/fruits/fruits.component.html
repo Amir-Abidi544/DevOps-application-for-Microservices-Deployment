@@ -1,0 +1,22 @@
+<!-- Conteneur pour ajouter un fruit, centré en haut -->
+<div class="add-container">
+  <input [(ngModel)]="newFruit" placeholder="Add Fruit">
+  <button (click)="addFruit()">➕ Add</button>
+</div>
+
+<!-- Liste des fruits avec boutons Modifier/Supprimer -->
+<ul>
+  <li *ngFor="let fruit of fruits">
+    <span>{{ fruit.name }}</span>
+    <div>
+      <button (click)="editFruit(fruit)">✏ Modify</button>
+      <button (click)="deleteFruit(fruit.id!)">🗑 Delete</button>
+    </div>
+
+    <!-- Formulaire de modification s'affiche sous le fruit sélectionné -->
+    <div *ngIf="editingFruit && editingFruit.id === fruit.id" class="edit-container">
+      <input [(ngModel)]="editingFruit.name" placeholder="Modify The Fruit">
+      <button (click)="updateFruit()">✔ Save</button>
+    </div>
+  </li>
+</ul>
